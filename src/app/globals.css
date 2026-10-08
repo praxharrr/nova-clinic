@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Nova brand colours */
+@theme {
+  --color-forest-950: #0f241e;
+  --color-forest-900: #17332b;
+  --color-forest-800: #1f4439;
+  --color-forest-700: #2c5a4b;
+  --color-forest-100: #dfe9e4;
+
+  --color-gold-400: #d8b569;
+  --color-gold-500: #c9a24d;
+  --color-gold-600: #a8832f;
+
+  --color-beige-50: #faf6ef;
+  --color-beige-100: #f4ede2;
+  --color-beige-200: #eadfcf;
+  --color-beige-300: #dccdb6;
 }
 
+/* Fonts (loaded in layout.tsx) */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-dm-sans);
+  --font-serif: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-beige-100 font-sans text-forest-900 antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-serif tracking-tight;
+  }
 }
