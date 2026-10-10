@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { MessageCircle, Phone, Plus } from "lucide-react";
 import { site } from "@/lib/site";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
   title: "Frequently asked questions",
@@ -24,7 +26,7 @@ const faqs = [
   },
   {
     q: "How much does it cost?",
-    a: "Fees depend on the type and length of session. Contact us for current prices, and we'll confirm them before you book.",
+    a: `An initial assessment is ${site.pricing.items[0].price} and each follow-up treatment session is ${site.pricing.items[1].price}. New patients can also take our introductory offer: your assessment plus first treatment, up to 1 hour in total, for ${site.pricing.intro.price} in their first month. Package discounts may be available, so ask us when you book. You can see everything on our fees page.`,
   },
   {
     q: "How many sessions will I need?",
@@ -72,37 +74,63 @@ export default function FaqPage() {
         }}
       />
 
-      <h1 className="text-5xl font-medium sm:text-6xl">
+      <h1 className="rise rise-1 text-5xl font-medium sm:text-6xl">
         Frequently asked questions
       </h1>
 
-      <div className="mt-10 border-t border-forest-900/15">
-        {faqs.map((f) => (
-          <details key={f.q} className="group border-b border-forest-900/15">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-serif text-2xl font-medium marker:content-none [&::-webkit-details-marker]:hidden">
-              {f.q}
-              <Plus
-                className="size-5 shrink-0 text-gold-600 transition group-open:rotate-45"
-                aria-hidden
-              />
-            </summary>
-            <p className="pb-6 pr-10 leading-relaxed text-forest-900/80">
-              {f.a}
-            </p>
-          </details>
+      <div className="mt-10 space-y-3">
+        {faqs.map((f, i) => (
+          <Reveal key={f.q} delay={(i % 4) * 60}>
+            <details className="group rounded-2xl bg-beige-50 ring-1 ring-beige-300 transition duration-300 hover:-translate-y-0.5 hover:ring-gold-500/70 open:shadow-lg open:shadow-forest-950/10">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-left font-serif text-2xl font-medium marker:content-none [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <Plus
+                  className="size-5 shrink-0 text-gold-600 transition duration-300 group-open:rotate-45"
+                  aria-hidden
+                />
+              </summary>
+              <p className="px-6 pb-6 pr-10 leading-relaxed text-forest-900/80">
+                {f.a}
+              </p>
+            </details>
+          </Reveal>
         ))}
       </div>
 
-      <p className="mt-10 text-forest-900/80">
-        Still have a question?{" "}
-        <Link
-          href="/contact"
-          className="font-medium text-forest-900 underline underline-offset-4"
-        >
-          Get in touch
-        </Link>
-        .
-      </p>
+      <Reveal>
+        <SpotlightCard className="group mt-14 rounded-[2rem] bg-forest-900 p-8 text-beige-50 sm:p-10">
+          <h2 className="text-3xl font-medium sm:text-4xl">
+            Still have a question?
+          </h2>
+          <p className="mt-3 text-beige-200/90">
+            Send us a message or reach us directly. We&apos;re happy to help.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/contact"
+              className="btn-gold inline-flex rounded-full bg-gold-500 px-7 py-3.5 font-medium text-forest-950"
+            >
+              Get in touch
+            </Link>
+            <a
+              href={`https://wa.me/${site.whatsappNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-fill inline-flex items-center gap-2 rounded-full border border-beige-200/40 px-7 py-3.5 font-medium"
+            >
+              <MessageCircle className="size-5" aria-hidden />
+              WhatsApp
+            </a>
+            <a
+              href={site.phoneHref}
+              className="btn-fill inline-flex items-center gap-2 rounded-full border border-beige-200/40 px-7 py-3.5 font-medium"
+            >
+              <Phone className="size-5" aria-hidden />
+              Call us
+            </a>
+          </div>
+        </SpotlightCard>
+      </Reveal>
     </main>
   );
 }

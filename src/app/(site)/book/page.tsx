@@ -3,7 +3,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { BookingForm } from "@/components/booking/BookingForm";
 import { BOOKING_SERVICE_VALUES } from "@/lib/data/services";
-import { addDays, londonToday } from "@/lib/dates";
+import { upcomingOpenDates } from "@/lib/dates";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Book an appointment" };
 
@@ -24,7 +25,7 @@ export default async function BookPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const today = londonToday();
+  const dates = upcomingOpenDates(site.openDays, 12);
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-16">
@@ -35,11 +36,7 @@ export default async function BookPage({
       </p>
 
       {user ? (
-        <BookingForm
-          defaultService={defaultService}
-          minDate={today}
-          maxDate={addDays(today, 180)}
-        />
+        <BookingForm defaultService={defaultService} dates={dates} />
       ) : (
         <div className="space-y-4 rounded-3xl bg-white/60 p-8 text-center ring-1 ring-beige-300">
           <p className="text-lg">

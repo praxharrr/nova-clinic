@@ -4,10 +4,11 @@ import { useActionState } from "react";
 import Link from "next/link";
 import { createBooking } from "@/actions/booking";
 import type { BookingState } from "@/types/booking";
-import { Field } from "@/components/ui/Field";
 import { SubmitButton } from "@/components/ui/SubmitButton";
 import { BOOKING_SERVICE_OPTIONS } from "@/lib/data/services";
 import { SLOT_LABELS, SLOT_VALUES } from "@/lib/data/booking";
+import { formatDate } from "@/lib/dates";
+import { site } from "@/lib/site";
 
 const initialState: BookingState = {};
 
@@ -16,12 +17,10 @@ const controlClass =
 
 export function BookingForm({
   defaultService,
-  minDate,
-  maxDate,
+  dates,
 }: {
   defaultService?: string;
-  minDate: string;
-  maxDate: string;
+  dates: string[];
 }) {
   const [state, action, pending] = useActionState(createBooking, initialState);
 
@@ -87,22 +86,44 @@ export function BookingForm({
         )}
       </div>
 
-      <Field
-        label="Preferred date"
-        name="preferredDate"
-        type="date"
-        min={minDate}
-        max={maxDate}
-        defaultValue={state.values?.preferredDate}
-        error={state.fieldErrors?.preferredDate?.[0]}
-        required
-      />
+      <div>
+        <label
+          htmlFor="preferredDate"
+          className="mb-1.5 block text-sm font-medium text-forest-900"
+        >
+          Preferred date
+        </label>
+        <select
+          id="preferredDate"
+          name="preferredDate"
+          required
+          defaultValue={state.values?.preferredDate ?? ""}
+          className={controlClass}
+        >
+          <option value="" disabled>
+            Choose a date
+          </option>
+          {dates.map((d) => (
+            <option key={d} value={d}>
+              {formatDate(d)}
+            </option>
+          ))}
+        </select>
+        <p className="mt-1.5 text-sm text-forest-900/60">
+          We&apos;re open {site.hoursSummary}.
+        </p>
+        {state.fieldErrors?.preferredDate?.[0] && (
+          <p className="mt-1.5 text-sm text-red-700">
+            {state.fieldErrors.preferredDate[0]}
+          </p>
+        )}
+      </div>
 
       <fieldset>
         <legend className="mb-1.5 block text-sm font-medium text-forest-900">
           Preferred time of day
         </legend>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid gap-3 sm:grid-cols-3">
           {SLOT_VALUES.map((slot) => (
             <label key={slot} className="cursor-pointer">
               <input
@@ -113,7 +134,7 @@ export function BookingForm({
                 required
                 className="peer sr-only"
               />
-              <span className="block rounded-xl border border-beige-300 bg-beige-50 px-4 py-3 text-center transition peer-checked:border-forest-900 peer-checked:bg-forest-900 peer-checked:text-beige-50 peer-focus-visible:ring-2 peer-focus-visible:ring-gold-500">
+              <span className="block rounded-xl border border-beige-300 bg-beige-50 px-4 py-3 text-center text-sm transition peer-checked:border-forest-900 peer-checked:bg-forest-900 peer-checked:text-beige-50 peer-focus-visible:ring-2 peer-focus-visible:ring-gold-500">
                 {SLOT_LABELS[slot]}
               </span>
             </label>

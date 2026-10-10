@@ -2,15 +2,14 @@ export type TeamMember = {
   name: string;
   role: string;
   bio: string;
-  photo: string | null; // e.g. "/images/team/name.jpg", or null for initials
+  photo: string | null; // e.g. "/images/team/saniya.jpg", or null for initials
 };
 
-// TODO: replace with the real team before launch.
 export const team: TeamMember[] = [
   {
-    name: "Physiotherapist name",
+    name: "Saniya Sultana Shaikh",
     role: "Physiotherapist",
-    bio: "Add a short biography here: qualifications, experience and areas of interest.",
-    photo: null,
+    bio: "Saniya is an HCPC-registered physiotherapist and CSP member dedicated to helping patients regain mobility, independence and confidence in daily life. She has over two years of hands-on clinical experience across the UK healthcare system, spanning musculoskeletal, neurological, orthopaedic, acute and rehabilitation care. She takes a holistic, evidence-based approach, tailoring each plan around the person's goals, lifestyle and wellbeing. Saniya has also delivered remote care as a Virtual Service Physiotherapist and continues to develop her skills in pain management, safe patient mobilisation and specialised care support.",
+    photo: "/images/team/saniya.jpg",
   },
 ];

@@ -29,3 +29,18 @@ export function formatDateTime(iso: string): string {
     timeZone: "Europe/London",
   });
 }
+
+export function isOpenDay(isoDate: string, openDays: number[]): boolean {
+  return openDays.includes(new Date(`${isoDate}T00:00:00Z`).getUTCDay());
+}
+
+// The next `count` open days, starting from tomorrow (UK time).
+export function upcomingOpenDates(openDays: number[], count: number): string[] {
+  const out: string[] = [];
+  let d = addDays(londonToday(), 1);
+  for (let i = 0; i < 120 && out.length < count; i++) {
+    if (isOpenDay(d, openDays)) out.push(d);
+    d = addDays(d, 1);
+  }
+  return out;
+}

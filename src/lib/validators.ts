@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { BOOKING_SERVICE_VALUES } from "@/lib/data/services";
 import { SLOT_VALUES } from "@/lib/data/booking";
-import { addDays, londonToday } from "@/lib/dates";
+import { addDays, isOpenDay, londonToday } from "@/lib/dates";
+import { site } from "@/lib/site";
 
 export const signupSchema = z.object({
   fullName: z
@@ -40,6 +41,10 @@ export const bookingSchema = z.object({
     .refine(
       (d) => d >= londonToday() && d <= addDays(londonToday(), 180),
       "Choose a date within the next 6 months"
+    )
+    .refine(
+      (d) => isOpenDay(d, site.openDays),
+      "Please choose a day we're open"
     ),
   preferredSlot: z.enum(SLOT_VALUES, { message: "Choose a time of day" }),
   note: z

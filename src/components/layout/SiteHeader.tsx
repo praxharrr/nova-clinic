@@ -4,6 +4,7 @@ import { navLinks, site } from "@/lib/site";
 import { Wordmark } from "./Wordmark";
 import { MobileNav } from "./MobileNav";
 import { AuthLink } from "./AuthLink";
+import { HeaderShell } from "./HeaderShell";
 
 export function SiteHeader() {
   return (
@@ -12,7 +13,7 @@ export function SiteHeader() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
           <p className="flex items-center gap-2">
             <Clock className="size-4 text-gold-400" aria-hidden />
-            {site.hours[0].days}, {site.hours[0].time}
+            {site.hoursSummary}
           </p>
           <a
             href={site.phoneHref}
@@ -24,7 +25,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-beige-300/70 bg-beige-100/90 backdrop-blur">
+      <HeaderShell>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
           <Wordmark />
 
@@ -36,7 +37,7 @@ export function SiteHeader() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-forest-900/80 transition hover:text-forest-900"
+                className="link-underline text-forest-900/80 hover:text-forest-900"
               >
                 {l.label}
               </Link>
@@ -45,10 +46,10 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-4">
             <div className="hidden items-center gap-5 lg:flex">
-              <AuthLink className="text-[0.95rem] font-medium text-forest-900 underline-offset-4 hover:underline" />
+              <AuthLink className="link-underline text-[0.95rem] font-medium text-forest-900" />
               <Link
                 href="/book"
-                className="rounded-full bg-gold-500 px-6 py-2.5 text-[0.95rem] font-medium text-forest-950 transition hover:bg-gold-400"
+                className="btn-shine rounded-full bg-gold-500 px-6 py-2.5 text-[0.95rem] font-medium text-forest-950 hover:bg-gold-400"
               >
                 Book an appointment
               </Link>
@@ -56,7 +57,7 @@ export function SiteHeader() {
             <MobileNav />
           </div>
         </div>
-      </header>
+      </HeaderShell>
     </>
   );
 }
